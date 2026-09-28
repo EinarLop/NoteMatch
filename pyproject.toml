@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
-notematch = "notematch:main"
+notematch = "notematch.cli:main"
 
 [build-system]
 requires = ["uv_build>=0.12.19,<0.13.0"]

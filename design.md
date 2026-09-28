@@ -453,3 +453,8 @@ Each open question has a default, so none of them blocks work. The last column s
 | 8 | `uncovered_topics` = not covered by any *returned* product (5.4) | As stated | Confirm with product owner |
 | 9 | `requirements.md` still lists `level` (FR1, FR2) | Design drops it (3.1) | Update `requirements.md` |
 | 10 | Catalog size | ~240 index entries → brute-force numpy | Only above ~100k entries: switch to FAISS/Chroma |
+| 11 | Few-shot copying: the 4B parser returned an example's topics for "hey what's up" (c29) | Known bug, accepted for now | Send few-shot examples as separate chat turns (needs a `messages` option in `complete_json`) |
+| 12 | Threshold placeholder `tau_topic = 0.55` is too low: no-match topics reach 0.68, match topics 0.52–0.83, overlapping in 0.59–0.68 (step-4 check, dev only) | Keep the placeholder | Grid search in step 6 (7.3) |
+| 13 | Summary rows act as "hubs": long, generic, same opening, so off-topic queries (quantum, SQL, Grover) match them at 0.62–0.68 | Keep summaries in the index | Experiment: TOC-only vs TOC + summary, or strip the "This study note covers" boilerplate before embedding |
+| 14 | Topics mentioned only inside the notes, with no TOC heading (cross-entropy, squared error), match weakly (≤ 0.52) | Accept | Only if eval shows these misses matter |
+| 15 | `tau_min` is compared to a mean over topics, so specialist products fade as prompts get more topics: c11 (3 topics) drops `reinforcement_learning` (0.73 on "q-learning" → score 0.24 < 0.30) although it's the only product covering that topic | Accept | Tuning may push `tau_min` low; else always include the best product per covered topic |

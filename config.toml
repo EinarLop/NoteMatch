@@ -1,0 +1,27 @@
+[llm]
+provider = "ollama"               # "ollama" | "anthropic"
+model = "qwen3:4b-instruct"       # non-thinking variant; plain "qwen3:4b" is thinking-only
+think = false
+# Ollama address comes from the OLLAMA_HOST env var (default localhost)
+temperature = 0.0
+max_retries = 2
+
+[embedding]                       # always via Ollama
+model = "nomic-embed-text"
+query_prefix = "search_query: "
+document_prefix = "search_document: "
+# Placeholders: specific to this embedding model, tuned on the eval set (design.md 7.3).
+tau_topic = 0.55
+tau_min = 0.30
+
+[retrieval]
+mode = "per_topic"                # "per_topic" | "whole_prompt"
+max_results = 3
+
+[ingestion]
+toc_stoplist = ["introduction", "preface", "index", "references", "bibliography",
+                "contents", "exercises", "summary of key concepts"]
+
+[paths]
+catalog = "catalog"
+index = "index"
