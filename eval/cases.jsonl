@@ -1,0 +1,30 @@
+{"id": "c01", "prompt": "My little brother asked me what artificial intelligence even means and I couldn't explain the different definitions well, is there a good overview?", "expected": ["intro_to_ai"], "split": "dev"}
+{"id": "c02", "prompt": "Why does breadth-first search use so much more memory than depth-first search? I keep mixing them up.", "expected": ["uninformed_search"], "split": "dev"}
+{"id": "c03", "prompt": "I need to understand backtracking search and arc consistency for my Sudoku solver assignment.", "expected": ["constraint_satisfaction"], "split": "dev"}
+{"id": "c04", "prompt": "Can someone explain how resolution proves something is unsatisfiable? I have a logic homework due Monday.", "expected": ["propositional_logic"], "split": "test"}
+{"id": "c05", "prompt": "Trying to wrap my head around STRIPS actions and how planning graphs work for my robotics project.", "expected": ["automated_planning"], "split": "dev"}
+{"id": "c06", "prompt": "What's the actual difference between Q-learning and SARSA? My assignment wants me to compare them.", "expected": ["reinforcement_learning"], "split": "test"}
+{"id": "c07", "prompt": "I need help understanding gradient descent and why logistic regression uses cross entropy loss instead of squared error.", "expected": ["supervised_learning"], "split": "dev"}
+{"id": "c08", "prompt": "Studying for my computer vision midterm, need to review how convolution and pooling actually work.", "expected": ["convolutional_networks"], "split": "dev"}
+{"id": "c09", "prompt": "How does TF-IDF work? I'm building a simple document search project for class.", "expected": ["natural_language_processing"], "split": "test"}
+{"id": "c10", "prompt": "Reviewing for my AI midterm, need to go over both blind search like BFS/DFS and heuristic search like A*.", "expected": ["uninformed_search", "informed_search"], "split": "dev"}
+{"id": "c11", "prompt": "Working on a project that starts with Q-learning but I think I need to understand MDPs and the Bellman equation first.", "expected": ["markov_decision_processes", "reinforcement_learning"], "split": "dev"}
+{"id": "c12", "prompt": "Building a puzzle solver and need to understand both CSPs and how propositional logic inference works.", "expected": ["constraint_satisfaction", "propositional_logic"], "split": "test"}
+{"id": "c13", "prompt": "Studying ensemble methods like random forests and boosting, plus basic regularization from linear models.", "expected": ["decision_trees_ensembles", "supervised_learning"], "split": "dev"}
+{"id": "c14", "prompt": "My project combines a CNN for images with an RNN for captions, need background on both.", "expected": ["convolutional_networks", "sequence_models"], "split": "dev"}
+{"id": "c15", "prompt": "Trying to understand word embeddings and how attention and transformers actually work for my NLP project.", "expected": ["natural_language_processing", "sequence_models"], "split": "test"}
+{"id": "c16", "prompt": "yo i need help w/ nueral nets n how they actually learn stuff lol", "expected": ["neural_networks"], "split": "dev"}
+{"id": "c17", "prompt": "wut is minimax anyway, my game ai project is due tmrw", "expected": ["adversarial_search"], "split": "test"}
+{"id": "c18", "prompt": "can u explain baysian networks im so lost, whats a conditional probability table", "expected": ["probability_bayesian_networks"], "split": "dev"}
+{"id": "c19", "prompt": "help pls, whats the diff between bagging n boosting for my ml hw", "expected": ["decision_trees_ensembles"], "split": "test"}
+{"id": "c20", "prompt": "so confused rn, how do i even pick k for kmeans clustering??", "expected": ["unsupervised_learning"], "split": "dev"}
+{"id": "c21", "prompt": "I need help with both neural networks and support vector machines for my ML exam.", "expected": ["neural_networks"], "split": "dev"}
+{"id": "c22", "prompt": "Studying reinforcement learning and also genetic algorithms for my evolutionary computation unit.", "expected": ["reinforcement_learning"], "split": "dev"}
+{"id": "c23", "prompt": "Need to review Bayesian networks and also hidden Markov models for speech recognition.", "expected": ["probability_bayesian_networks"], "split": "dev"}
+{"id": "c24", "prompt": "Working on a project with STRIPS planning and also robot kinematics and inverse kinematics.", "expected": ["automated_planning"], "split": "test"}
+{"id": "c25", "prompt": "I'm taking organic chemistry and need help with reaction mechanisms for alkenes.", "expected": [], "split": "dev"}
+{"id": "c26", "prompt": "Struggling with Calc II, stuck on integration by parts and power series.", "expected": [], "split": "test"}
+{"id": "c27", "prompt": "Can you help me understand quantum computing and Grover's algorithm?", "expected": [], "split": "dev"}
+{"id": "c28", "prompt": "I need notes on database normalization and SQL query optimization for my databases class.", "expected": [], "split": "dev"}
+{"id": "c29", "prompt": "hey what's up, how's your day going?", "expected": [], "split": "dev"}
+{"id": "c30", "prompt": "Can you recommend a good pizza place near campus?", "expected": [], "split": "test"}

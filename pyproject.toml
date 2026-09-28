@@ -1,0 +1,29 @@
+[project]
+name = "notematch"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "EinarLop", email = "einarlop0@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.141.1",
+    "numpy>=2.5.3",
+    "ollama>=0.6.2",
+    "pydantic>=2.13.5",
+    "pymupdf>=1.28.2",
+    "uvicorn>=0.54.0",
+]
+
+[project.scripts]
+notematch = "notematch:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
