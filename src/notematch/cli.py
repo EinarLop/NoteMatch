@@ -18,6 +18,8 @@ def main() -> None:
     ev.add_argument("cases", nargs="?", default="eval/cases.jsonl")
     ev.add_argument("--split", choices=["dev", "test", "all"], default="dev",
                     help="default dev; run test only once, with final thresholds (design 7.3)")
+    tu = sub.add_parser("tune", help="grid-search tau_topic x tau_min on the dev split")
+    tu.add_argument("cases", nargs="?", default="eval/cases.jsonl")
     args = ap.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(message)s")  # request log -> stderr
@@ -42,6 +44,11 @@ def main() -> None:
         logging.getLogger("notematch").setLevel(logging.WARNING)   # skip per-request log lines
         name = Path(args.config or os.environ.get("NOTEMATCH_CONFIG", "config.toml")).stem
         evaluate(cfg, Path(args.cases), args.split, name)
+    elif args.cmd == "tune":
+        from pathlib import Path
+        from notematch.evaluate import tune
+        logging.getLogger("notematch").setLevel(logging.WARNING)
+        tune(cfg, Path(args.cases))
 
 
 if __name__ == "__main__":

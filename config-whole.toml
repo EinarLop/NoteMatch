@@ -10,12 +10,12 @@ max_retries = 2
 model = "nomic-embed-text"
 query_prefix = "search_query: "
 document_prefix = "search_document: "
-# Tuned on the dev split (notematch tune): best plateau tau_topic 0.68–0.71, tau_min 0–0.14; middle picked.
-tau_topic = 0.70
+# Experiment B: tuned separately on dev. Plateau tau_topic 0.65–0.66 (narrow), tau_min irrelevant with one "topic".
+tau_topic = 0.655
 tau_min = 0.06
 
 [retrieval]
-mode = "per_topic"                # "per_topic" | "whole_prompt"
+mode = "whole_prompt"             # experiment B (design 7.4): embed the whole prompt, no LLM parse
 max_results = 3
 
 [ingestion]

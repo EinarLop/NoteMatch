@@ -94,6 +94,40 @@ def _diagnose(r: CaseRun, expected: list[str], ids: list[str], max_results: int)
     return "retrieval/parse: expected product not in top-3 even without thresholds"
 
 
+def grid_search(runs: list[CaseRun], index: Index, max_results: int) -> list[dict]:
+    """Score every (tau_topic, tau_min) pair; best first.
+    Objective: Hit@3 + no-match accuracy (recall vs false positives), ties broken by Recall@3 then MRR."""
+    results = []
+    for tau_topic in np.round(np.arange(0.50, 0.801, 0.01), 2):
+        for tau_min in np.round(np.arange(0.0, 0.601, 0.02), 2):
+            m, _ = score(runs, index, float(tau_topic), float(tau_min), max_results)
+            objective = (m["hit@3"] or 0) + (m["nomatch_acc"] or 0)
+            results.append({"tau_topic": float(tau_topic), "tau_min": float(tau_min),
+                            "objective": round(objective, 3), **m})
+    return sorted(results, key=lambda r: (r["objective"], r["recall@3"], r["mrr"]), reverse=True)
+
+
+def tune(cfg: Config, cases_path: Path) -> dict:
+    """Grid search on the dev split only (design 7.3); the test split stays untouched."""
+    index = load_index(cfg)
+    cases = load_cases(cases_path, "dev")
+    print(f"Running {len(cases)} dev cases once ({cfg.retrieval.mode}, {cfg.llm.model})...")
+    runs = run_cases(cases, index, cfg)
+    results = grid_search(runs, index, cfg.retrieval.max_results)
+    print("\nTop settings (dev):")
+    print("  tau_topic  tau_min  objective  Hit@3  MRR    Recall@3  no-match")
+    for r in results[:10]:
+        print(f"  {r['tau_topic']:<9}  {r['tau_min']:<7}  {r['objective']:<9}  {r['hit@3']:<5}  "
+              f"{r['mrr']:<5}  {r['recall@3']:<8}  {r['nomatch_acc']}")
+    best = results[0]
+    ties = [r for r in results if (r["objective"], r["recall@3"], r["mrr"]) ==
+            (best["objective"], best["recall@3"], best["mrr"])]
+    print(f"\n{len(ties)} settings tie for best: tau_topic {min(r['tau_topic'] for r in ties)}–"
+          f"{max(r['tau_topic'] for r in ties)}, tau_min {min(r['tau_min'] for r in ties)}–"
+          f"{max(r['tau_min'] for r in ties)}")
+    return best
+
+
 def evaluate(cfg: Config, cases_path: Path, split: str, config_name: str) -> dict:
     index = load_index(cfg)
     cases = load_cases(cases_path, split)

@@ -14,20 +14,39 @@ When a student asks for something, an LLM reads the request and pulls out the in
 
 The explanation is built directly from the matching table-of-contents entries rather than written by the LLM. That way it can only mention things that are actually in the notes.
 
-Everything runs locally on an M1 Mac with 8 GB of RAM, using a small open model through Ollama. A setting in the config file switches it to a hosted model instead.
+Everything runs locally on an M1 Mac with 8 GB of RAM, using a small open model through Ollama.
 
 ## Evaluation
 
-I wrote 30 test requests the way a student might phrase them, some of which should return no match. The system is scored on whether the right notes appear in the top three, how high they rank, and whether it correctly says "no match" when it should.
+I wrote 30 test requests the way a student might phrase them, including some that should return no match, and split them into 20 for development and 10 held out for the final test. The similarity thresholds were tuned on the development set only. The held-out set was run once at the end.
 
-I also compare two approaches: searching each topic separately versus searching the whole request at once. The results will be added here once the implementation is finished.
+The main question was whether it's worth using the LLM to split a request into topics, or whether it's enough to embed the whole request and search with that. Results on the held-out set:
 
-## Status
+| Approach | Right notes in top 3 | MRR | No-match cases correct | Median latency |
+|---|---|---|---|---|
+| LLM splits the request into topics | 6 of 8 | 0.75 | 1 of 2 | 0.9 s |
+| Whole request embedded directly | 7 of 8 | 0.88 | 2 of 2 | 0.015 s |
 
-The design, the notes catalog and the test set are done. The implementation is in progress.
+The simpler approach won, which I didn't expect. Two things explain most of the gap. First, the small LLM has a habit of copying an example from its prompt when a message has nothing to do with studying, so "can you recommend a pizza place?" came back as a question about game-playing algorithms. Second, the threshold I tuned for the topic-based approach turned out to be a little too strict on new requests. Splitting into topics also didn't show the advantage I expected on requests that mix several subjects.
+
+The test set is small, so a difference of one or two requests shouldn't be read as a definitive result. The topic-based approach still has one clear benefit: it can tell the student which of their topics each note covers and which ones nothing covers, which the whole-request search can't do.
+
+## What I'd do next
+
+- Fix the example-copying problem by giving the LLM its examples as separate chat turns, then evaluate on a fresh test set.
+- Reduce how often the notes' generic summaries match unrelated requests.
+- Add the FastAPI endpoint, Docker setup and the option to use a hosted model instead of the local one.
+
+## Running it
+
+```
+uv run notematch ingest
+uv run notematch recommend "I need help with Q-learning and MDPs"
+uv run notematch eval
+```
 
 ## Built with
 
-Python, Ollama (Qwen3 4B and nomic-embed-text), Pydantic, NumPy, FastAPI and Docker.
+Python, Ollama (Qwen3 4B and nomic-embed-text), Pydantic and NumPy.
 
 The design and the reasoning behind each decision are in [design.md](design.md).

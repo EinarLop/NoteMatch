@@ -1,0 +1,216 @@
+{
+  "config": {
+    "llm": {
+      "provider": "ollama",
+      "model": "qwen3:4b-instruct",
+      "think": false,
+      "temperature": 0.0,
+      "max_retries": 2
+    },
+    "embedding": {
+      "model": "nomic-embed-text",
+      "query_prefix": "search_query: ",
+      "document_prefix": "search_document: ",
+      "tau_topic": 0.655,
+      "tau_min": 0.06
+    },
+    "retrieval": {
+      "mode": "whole_prompt",
+      "max_results": 3
+    },
+    "ingestion": {
+      "toc_stoplist": [
+        "introduction",
+        "preface",
+        "index",
+        "references",
+        "bibliography",
+        "contents",
+        "exercises",
+        "summary of key concepts"
+      ]
+    },
+    "paths": {
+      "catalog": "catalog",
+      "index": "index"
+    }
+  },
+  "split": "test",
+  "metrics": {
+    "n_match": 8,
+    "n_nomatch": 2,
+    "hit@3": 0.875,
+    "mrr": 0.875,
+    "recall@3": 0.875,
+    "nomatch_acc": 1.0,
+    "latency_p50_ms": 15,
+    "latency_p95_ms": 40,
+    "mean_tokens": 0
+  },
+  "cases": [
+    {
+      "id": "c04",
+      "prompt": "Can someone explain how resolution proves something is unsatisfiable? I have a logic homework due Monday.",
+      "topics": [
+        "Can someone explain how resolution proves something is unsatisfiable? I have a logic homework due Monday."
+      ],
+      "expected": [
+        "propositional_logic"
+      ],
+      "returned": [
+        "propositional_logic",
+        "first_order_logic",
+        "constraint_satisfaction"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c06",
+      "prompt": "What's the actual difference between Q-learning and SARSA? My assignment wants me to compare them.",
+      "topics": [
+        "What's the actual difference between Q-learning and SARSA? My assignment wants me to compare them."
+      ],
+      "expected": [
+        "reinforcement_learning"
+      ],
+      "returned": [
+        "reinforcement_learning"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c09",
+      "prompt": "How does TF-IDF work? I'm building a simple document search project for class.",
+      "topics": [
+        "How does TF-IDF work? I'm building a simple document search project for class."
+      ],
+      "expected": [
+        "natural_language_processing"
+      ],
+      "returned": [
+        "natural_language_processing",
+        "informed_search"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c12",
+      "prompt": "Building a puzzle solver and need to understand both CSPs and how propositional logic inference works.",
+      "topics": [
+        "Building a puzzle solver and need to understand both CSPs and how propositional logic inference works."
+      ],
+      "expected": [
+        "constraint_satisfaction",
+        "propositional_logic"
+      ],
+      "returned": [
+        "propositional_logic",
+        "constraint_satisfaction",
+        "first_order_logic"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c15",
+      "prompt": "Trying to understand word embeddings and how attention and transformers actually work for my NLP project.",
+      "topics": [
+        "Trying to understand word embeddings and how attention and transformers actually work for my NLP project."
+      ],
+      "expected": [
+        "natural_language_processing",
+        "sequence_models"
+      ],
+      "returned": [
+        "natural_language_processing",
+        "sequence_models"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c17",
+      "prompt": "wut is minimax anyway, my game ai project is due tmrw",
+      "topics": [
+        "wut is minimax anyway, my game ai project is due tmrw"
+      ],
+      "expected": [
+        "adversarial_search"
+      ],
+      "returned": [
+        "adversarial_search"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c19",
+      "prompt": "help pls, whats the diff between bagging n boosting for my ml hw",
+      "topics": [
+        "help pls, whats the diff between bagging n boosting for my ml hw"
+      ],
+      "expected": [
+        "decision_trees_ensembles"
+      ],
+      "returned": [],
+      "hit": false,
+      "rr": 0.0,
+      "recall": 0.0,
+      "failure": "threshold: expected product ranks top-3 but was filtered out"
+    },
+    {
+      "id": "c24",
+      "prompt": "Working on a project with STRIPS planning and also robot kinematics and inverse kinematics.",
+      "topics": [
+        "Working on a project with STRIPS planning and also robot kinematics and inverse kinematics."
+      ],
+      "expected": [
+        "automated_planning"
+      ],
+      "returned": [
+        "automated_planning"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c26",
+      "prompt": "Struggling with Calc II, stuck on integration by parts and power series.",
+      "topics": [
+        "Struggling with Calc II, stuck on integration by parts and power series."
+      ],
+      "expected": [],
+      "returned": [],
+      "correct": true,
+      "failure": null
+    },
+    {
+      "id": "c30",
+      "prompt": "Can you recommend a good pizza place near campus?",
+      "topics": [
+        "Can you recommend a good pizza place near campus?"
+      ],
+      "expected": [],
+      "returned": [],
+      "correct": true,
+      "failure": null
+    }
+  ]
+}

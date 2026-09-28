@@ -11,11 +11,11 @@
       "model": "nomic-embed-text",
       "query_prefix": "search_query: ",
       "document_prefix": "search_document: ",
-      "tau_topic": 0.7,
+      "tau_topic": 0.655,
       "tau_min": 0.06
     },
     "retrieval": {
-      "mode": "per_topic",
+      "mode": "whole_prompt",
       "max_results": 3
     },
     "ingestion": {
@@ -40,27 +40,27 @@
     "n_match": 16,
     "n_nomatch": 4,
     "hit@3": 0.938,
-    "mrr": 0.938,
+    "mrr": 0.875,
     "recall@3": 0.938,
-    "nomatch_acc": 0.75,
-    "latency_p50_ms": 1016,
-    "latency_p95_ms": 1458,
-    "mean_tokens": 140
+    "nomatch_acc": 1.0,
+    "latency_p50_ms": 13,
+    "latency_p95_ms": 17,
+    "mean_tokens": 0
   },
   "cases": [
     {
       "id": "c01",
       "prompt": "My little brother asked me what artificial intelligence even means and I couldn't explain the different definitions well, is there a good overview?",
       "topics": [
-        "artificial intelligence",
-        "definitions of artificial intelligence"
+        "My little brother asked me what artificial intelligence even means and I couldn't explain the different definitions well, is there a good overview?"
       ],
       "expected": [
         "intro_to_ai"
       ],
       "returned": [
         "intro_to_ai",
-        "intelligent_agents"
+        "intelligent_agents",
+        "intro_machine_learning"
       ],
       "hit": true,
       "rr": 1.0,
@@ -71,14 +71,14 @@
       "id": "c02",
       "prompt": "Why does breadth-first search use so much more memory than depth-first search? I keep mixing them up.",
       "topics": [
-        "breadth-first search",
-        "depth-first search"
+        "Why does breadth-first search use so much more memory than depth-first search? I keep mixing them up."
       ],
       "expected": [
         "uninformed_search"
       ],
       "returned": [
-        "uninformed_search"
+        "uninformed_search",
+        "informed_search"
       ],
       "hit": true,
       "rr": 1.0,
@@ -89,17 +89,18 @@
       "id": "c03",
       "prompt": "I need to understand backtracking search and arc consistency for my Sudoku solver assignment.",
       "topics": [
-        "backtracking search",
-        "arc consistency"
+        "I need to understand backtracking search and arc consistency for my Sudoku solver assignment."
       ],
       "expected": [
         "constraint_satisfaction"
       ],
       "returned": [
-        "constraint_satisfaction"
+        "uninformed_search",
+        "constraint_satisfaction",
+        "informed_search"
       ],
       "hit": true,
-      "rr": 1.0,
+      "rr": 0.5,
       "recall": 1.0,
       "failure": null
     },
@@ -107,14 +108,15 @@
       "id": "c05",
       "prompt": "Trying to wrap my head around STRIPS actions and how planning graphs work for my robotics project.",
       "topics": [
-        "strips actions",
-        "planning graphs"
+        "Trying to wrap my head around STRIPS actions and how planning graphs work for my robotics project."
       ],
       "expected": [
         "automated_planning"
       ],
       "returned": [
-        "automated_planning"
+        "automated_planning",
+        "markov_decision_processes",
+        "reinforcement_learning"
       ],
       "hit": true,
       "rr": 1.0,
@@ -125,16 +127,13 @@
       "id": "c07",
       "prompt": "I need help understanding gradient descent and why logistic regression uses cross entropy loss instead of squared error.",
       "topics": [
-        "gradient descent",
-        "cross entropy loss",
-        "squared error"
+        "I need help understanding gradient descent and why logistic regression uses cross entropy loss instead of squared error."
       ],
       "expected": [
         "supervised_learning"
       ],
       "returned": [
-        "supervised_learning",
-        "neural_networks"
+        "supervised_learning"
       ],
       "hit": true,
       "rr": 1.0,
@@ -145,14 +144,15 @@
       "id": "c08",
       "prompt": "Studying for my computer vision midterm, need to review how convolution and pooling actually work.",
       "topics": [
-        "convolution",
-        "pooling"
+        "Studying for my computer vision midterm, need to review how convolution and pooling actually work."
       ],
       "expected": [
         "convolutional_networks"
       ],
       "returned": [
-        "convolutional_networks"
+        "convolutional_networks",
+        "neural_networks",
+        "unsupervised_learning"
       ],
       "hit": true,
       "rr": 1.0,
@@ -163,11 +163,7 @@
       "id": "c10",
       "prompt": "Reviewing for my AI midterm, need to go over both blind search like BFS/DFS and heuristic search like A*.",
       "topics": [
-        "blind search",
-        "bfs",
-        "dfs",
-        "heuristic search",
-        "a*"
+        "Reviewing for my AI midterm, need to go over both blind search like BFS/DFS and heuristic search like A*."
       ],
       "expected": [
         "uninformed_search",
@@ -175,8 +171,8 @@
       ],
       "returned": [
         "informed_search",
-        "adversarial_search",
-        "uninformed_search"
+        "uninformed_search",
+        "adversarial_search"
       ],
       "hit": true,
       "rr": 1.0,
@@ -187,9 +183,7 @@
       "id": "c11",
       "prompt": "Working on a project that starts with Q-learning but I think I need to understand MDPs and the Bellman equation first.",
       "topics": [
-        "q-learning",
-        "mdps",
-        "bellman equation"
+        "Working on a project that starts with Q-learning but I think I need to understand MDPs and the Bellman equation first."
       ],
       "expected": [
         "markov_decision_processes",
@@ -208,10 +202,7 @@
       "id": "c13",
       "prompt": "Studying ensemble methods like random forests and boosting, plus basic regularization from linear models.",
       "topics": [
-        "ensemble methods",
-        "random forests",
-        "boosting",
-        "regularization"
+        "Studying ensemble methods like random forests and boosting, plus basic regularization from linear models."
       ],
       "expected": [
         "decision_trees_ensembles",
@@ -219,6 +210,7 @@
       ],
       "returned": [
         "decision_trees_ensembles",
+        "reinforcement_learning",
         "supervised_learning"
       ],
       "hit": true,
@@ -230,8 +222,7 @@
       "id": "c14",
       "prompt": "My project combines a CNN for images with an RNN for captions, need background on both.",
       "topics": [
-        "cnn",
-        "rnn"
+        "My project combines a CNN for images with an RNN for captions, need background on both."
       ],
       "expected": [
         "convolutional_networks",
@@ -250,28 +241,22 @@
       "id": "c16",
       "prompt": "yo i need help w/ nueral nets n how they actually learn stuff lol",
       "topics": [
-        "neural nets",
-        "how neural nets learn"
+        "yo i need help w/ nueral nets n how they actually learn stuff lol"
       ],
       "expected": [
         "neural_networks"
       ],
-      "returned": [
-        "neural_networks",
-        "sequence_models",
-        "convolutional_networks"
-      ],
-      "hit": true,
-      "rr": 1.0,
-      "recall": 1.0,
-      "failure": null
+      "returned": [],
+      "hit": false,
+      "rr": 0.0,
+      "recall": 0.0,
+      "failure": "threshold: expected product ranks top-3 but was filtered out"
     },
     {
       "id": "c18",
       "prompt": "can u explain baysian networks im so lost, whats a conditional probability table",
       "topics": [
-        "bayesian networks",
-        "conditional probability table"
+        "can u explain baysian networks im so lost, whats a conditional probability table"
       ],
       "expected": [
         "probability_bayesian_networks"
@@ -288,32 +273,13 @@
       "id": "c20",
       "prompt": "so confused rn, how do i even pick k for kmeans clustering??",
       "topics": [
-        "kmeans clustering",
-        "k value selection"
+        "so confused rn, how do i even pick k for kmeans clustering??"
       ],
       "expected": [
         "unsupervised_learning"
       ],
-      "returned": [],
-      "hit": false,
-      "rr": 0.0,
-      "recall": 0.0,
-      "failure": "threshold: expected product ranks top-3 but was filtered out"
-    },
-    {
-      "id": "c21",
-      "prompt": "I need help with both neural networks and support vector machines for my ML exam.",
-      "topics": [
-        "neural networks",
-        "support vector machines"
-      ],
-      "expected": [
-        "neural_networks"
-      ],
       "returned": [
-        "neural_networks",
-        "convolutional_networks",
-        "sequence_models"
+        "unsupervised_learning"
       ],
       "hit": true,
       "rr": 1.0,
@@ -321,19 +287,37 @@
       "failure": null
     },
     {
+      "id": "c21",
+      "prompt": "I need help with both neural networks and support vector machines for my ML exam.",
+      "topics": [
+        "I need help with both neural networks and support vector machines for my ML exam."
+      ],
+      "expected": [
+        "neural_networks"
+      ],
+      "returned": [
+        "convolutional_networks",
+        "neural_networks",
+        "intro_machine_learning"
+      ],
+      "hit": true,
+      "rr": 0.5,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
       "id": "c22",
       "prompt": "Studying reinforcement learning and also genetic algorithms for my evolutionary computation unit.",
       "topics": [
-        "reinforcement learning",
-        "genetic algorithms"
+        "Studying reinforcement learning and also genetic algorithms for my evolutionary computation unit."
       ],
       "expected": [
         "reinforcement_learning"
       ],
       "returned": [
         "reinforcement_learning",
-        "uninformed_search",
-        "informed_search"
+        "neural_networks",
+        "sequence_models"
       ],
       "hit": true,
       "rr": 1.0,
@@ -344,14 +328,15 @@
       "id": "c23",
       "prompt": "Need to review Bayesian networks and also hidden Markov models for speech recognition.",
       "topics": [
-        "bayesian networks",
-        "hidden markov models"
+        "Need to review Bayesian networks and also hidden Markov models for speech recognition."
       ],
       "expected": [
         "probability_bayesian_networks"
       ],
       "returned": [
-        "probability_bayesian_networks"
+        "probability_bayesian_networks",
+        "sequence_models",
+        "intro_machine_learning"
       ],
       "hit": true,
       "rr": 1.0,
@@ -362,8 +347,7 @@
       "id": "c25",
       "prompt": "I'm taking organic chemistry and need help with reaction mechanisms for alkenes.",
       "topics": [
-        "reaction mechanisms",
-        "alkenes"
+        "I'm taking organic chemistry and need help with reaction mechanisms for alkenes."
       ],
       "expected": [],
       "returned": [],
@@ -374,8 +358,7 @@
       "id": "c27",
       "prompt": "Can you help me understand quantum computing and Grover's algorithm?",
       "topics": [
-        "quantum computing",
-        "grover's algorithm"
+        "Can you help me understand quantum computing and Grover's algorithm?"
       ],
       "expected": [],
       "returned": [],
@@ -386,8 +369,7 @@
       "id": "c28",
       "prompt": "I need notes on database normalization and SQL query optimization for my databases class.",
       "topics": [
-        "database normalization",
-        "sql query optimization"
+        "I need notes on database normalization and SQL query optimization for my databases class."
       ],
       "expected": [],
       "returned": [],
@@ -398,15 +380,12 @@
       "id": "c29",
       "prompt": "hey what's up, how's your day going?",
       "topics": [
-        "minimax",
-        "alpha-beta pruning"
+        "hey what's up, how's your day going?"
       ],
       "expected": [],
-      "returned": [
-        "adversarial_search"
-      ],
-      "correct": false,
-      "failure": "false positive"
+      "returned": [],
+      "correct": true,
+      "failure": null
     }
   ]
 }
