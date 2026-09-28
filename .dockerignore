@@ -8,3 +8,4 @@ eval
 tests
 *.md
 !README.md
+.env
