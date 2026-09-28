@@ -11,7 +11,7 @@ RUN uv sync --locked --no-dev --no-install-project
 
 COPY src ./src
 RUN uv sync --locked --no-dev
-COPY config.toml config-whole.toml ./
+COPY config.toml config-whole.toml config-claude.toml ./
 
 EXPOSE 8000
 CMD ["notematch", "serve", "--host", "0.0.0.0", "--prepare"]

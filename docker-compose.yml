@@ -7,6 +7,8 @@ services:
       - "8000:8000"
     environment:
       OLLAMA_HOST: http://host.docker.internal:11434   # the host's Ollama, read by the ollama client
+      NOTEMATCH_CONFIG: ${NOTEMATCH_CONFIG:-config.toml}   # e.g. config-claude.toml in .env to use Claude
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}         # from .env or the shell; only needed for Claude
     extra_hosts:
       - "host.docker.internal:host-gateway"             # makes that name work on Linux too
     volumes:

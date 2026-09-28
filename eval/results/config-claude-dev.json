@@ -1,0 +1,416 @@
+{
+  "config": {
+    "llm": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "think": false,
+      "temperature": 0.0,
+      "max_retries": 2
+    },
+    "embedding": {
+      "model": "nomic-embed-text",
+      "query_prefix": "search_query: ",
+      "document_prefix": "search_document: ",
+      "tau_topic": 0.7,
+      "tau_min": 0.06
+    },
+    "retrieval": {
+      "mode": "per_topic",
+      "max_results": 3
+    },
+    "ingestion": {
+      "toc_stoplist": [
+        "introduction",
+        "preface",
+        "index",
+        "references",
+        "bibliography",
+        "contents",
+        "exercises",
+        "summary of key concepts"
+      ]
+    },
+    "paths": {
+      "catalog": "catalog",
+      "index": "index"
+    }
+  },
+  "split": "dev",
+  "metrics": {
+    "n_match": 16,
+    "n_nomatch": 4,
+    "hit@3": 1.0,
+    "mrr": 1.0,
+    "recall@3": 1.0,
+    "nomatch_acc": 1.0,
+    "latency_p50_ms": 1088,
+    "latency_p95_ms": 1661,
+    "mean_tokens": 344
+  },
+  "cases": [
+    {
+      "id": "c01",
+      "prompt": "My little brother asked me what artificial intelligence even means and I couldn't explain the different definitions well, is there a good overview?",
+      "topics": [
+        "artificial intelligence definitions",
+        "artificial intelligence overview"
+      ],
+      "expected": [
+        "intro_to_ai"
+      ],
+      "returned": [
+        "intro_to_ai"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c02",
+      "prompt": "Why does breadth-first search use so much more memory than depth-first search? I keep mixing them up.",
+      "topics": [
+        "breadth-first search",
+        "depth-first search",
+        "memory usage comparison"
+      ],
+      "expected": [
+        "uninformed_search"
+      ],
+      "returned": [
+        "uninformed_search"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c03",
+      "prompt": "I need to understand backtracking search and arc consistency for my Sudoku solver assignment.",
+      "topics": [
+        "backtracking search",
+        "arc consistency"
+      ],
+      "expected": [
+        "constraint_satisfaction"
+      ],
+      "returned": [
+        "constraint_satisfaction"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c05",
+      "prompt": "Trying to wrap my head around STRIPS actions and how planning graphs work for my robotics project.",
+      "topics": [
+        "strips actions",
+        "planning graphs"
+      ],
+      "expected": [
+        "automated_planning"
+      ],
+      "returned": [
+        "automated_planning"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c07",
+      "prompt": "I need help understanding gradient descent and why logistic regression uses cross entropy loss instead of squared error.",
+      "topics": [
+        "gradient descent",
+        "logistic regression",
+        "cross entropy loss",
+        "squared error"
+      ],
+      "expected": [
+        "supervised_learning"
+      ],
+      "returned": [
+        "supervised_learning",
+        "neural_networks"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c08",
+      "prompt": "Studying for my computer vision midterm, need to review how convolution and pooling actually work.",
+      "topics": [
+        "convolution",
+        "pooling",
+        "computer vision"
+      ],
+      "expected": [
+        "convolutional_networks"
+      ],
+      "returned": [
+        "convolutional_networks"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c10",
+      "prompt": "Reviewing for my AI midterm, need to go over both blind search like BFS/DFS and heuristic search like A*.",
+      "topics": [
+        "blind search",
+        "bfs",
+        "dfs",
+        "heuristic search",
+        "a*"
+      ],
+      "expected": [
+        "uninformed_search",
+        "informed_search"
+      ],
+      "returned": [
+        "informed_search",
+        "adversarial_search",
+        "uninformed_search"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c11",
+      "prompt": "Working on a project that starts with Q-learning but I think I need to understand MDPs and the Bellman equation first.",
+      "topics": [
+        "q-learning",
+        "mdps",
+        "bellman equation"
+      ],
+      "expected": [
+        "markov_decision_processes",
+        "reinforcement_learning"
+      ],
+      "returned": [
+        "markov_decision_processes",
+        "reinforcement_learning"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c13",
+      "prompt": "Studying ensemble methods like random forests and boosting, plus basic regularization from linear models.",
+      "topics": [
+        "ensemble methods",
+        "random forests",
+        "boosting",
+        "regularization",
+        "linear models"
+      ],
+      "expected": [
+        "decision_trees_ensembles",
+        "supervised_learning"
+      ],
+      "returned": [
+        "decision_trees_ensembles",
+        "neural_networks",
+        "supervised_learning"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c14",
+      "prompt": "My project combines a CNN for images with an RNN for captions, need background on both.",
+      "topics": [
+        "cnn",
+        "rnn",
+        "image processing",
+        "caption generation"
+      ],
+      "expected": [
+        "convolutional_networks",
+        "sequence_models"
+      ],
+      "returned": [
+        "convolutional_networks",
+        "sequence_models"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c16",
+      "prompt": "yo i need help w/ nueral nets n how they actually learn stuff lol",
+      "topics": [
+        "neural networks",
+        "neural network learning"
+      ],
+      "expected": [
+        "neural_networks"
+      ],
+      "returned": [
+        "neural_networks",
+        "convolutional_networks",
+        "sequence_models"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c18",
+      "prompt": "can u explain baysian networks im so lost, whats a conditional probability table",
+      "topics": [
+        "bayesian networks",
+        "conditional probability tables"
+      ],
+      "expected": [
+        "probability_bayesian_networks"
+      ],
+      "returned": [
+        "probability_bayesian_networks"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c20",
+      "prompt": "so confused rn, how do i even pick k for kmeans clustering??",
+      "topics": [
+        "k-means clustering",
+        "choosing k parameter"
+      ],
+      "expected": [
+        "unsupervised_learning"
+      ],
+      "returned": [
+        "unsupervised_learning"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c21",
+      "prompt": "I need help with both neural networks and support vector machines for my ML exam.",
+      "topics": [
+        "neural networks",
+        "support vector machines"
+      ],
+      "expected": [
+        "neural_networks"
+      ],
+      "returned": [
+        "neural_networks",
+        "convolutional_networks",
+        "sequence_models"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c22",
+      "prompt": "Studying reinforcement learning and also genetic algorithms for my evolutionary computation unit.",
+      "topics": [
+        "reinforcement learning",
+        "genetic algorithms"
+      ],
+      "expected": [
+        "reinforcement_learning"
+      ],
+      "returned": [
+        "reinforcement_learning",
+        "uninformed_search",
+        "informed_search"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c23",
+      "prompt": "Need to review Bayesian networks and also hidden Markov models for speech recognition.",
+      "topics": [
+        "bayesian networks",
+        "hidden markov models",
+        "speech recognition"
+      ],
+      "expected": [
+        "probability_bayesian_networks"
+      ],
+      "returned": [
+        "probability_bayesian_networks"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c25",
+      "prompt": "I'm taking organic chemistry and need help with reaction mechanisms for alkenes.",
+      "topics": [
+        "reaction mechanisms",
+        "alkenes"
+      ],
+      "expected": [],
+      "returned": [],
+      "correct": true,
+      "failure": null
+    },
+    {
+      "id": "c27",
+      "prompt": "Can you help me understand quantum computing and Grover's algorithm?",
+      "topics": [
+        "quantum computing",
+        "grover's algorithm"
+      ],
+      "expected": [],
+      "returned": [],
+      "correct": true,
+      "failure": null
+    },
+    {
+      "id": "c28",
+      "prompt": "I need notes on database normalization and SQL query optimization for my databases class.",
+      "topics": [
+        "database normalization",
+        "sql query optimization"
+      ],
+      "expected": [],
+      "returned": [],
+      "correct": true,
+      "failure": null
+    },
+    {
+      "id": "c29",
+      "prompt": "hey what's up, how's your day going?",
+      "topics": [],
+      "expected": [],
+      "returned": [],
+      "correct": true,
+      "failure": null
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+# Same pipeline as config.toml, with Claude as the LLM (FR9). Embeddings stay local on Ollama,
+# so the index and the thresholds are unchanged. Needs ANTHROPIC_API_KEY (e.g. uv run --env-file .env).
+[llm]
+provider = "anthropic"
+model = "claude-haiku-4-5"
+temperature = 0.0
+max_retries = 2
+
+[embedding]
+model = "nomic-embed-text"
+query_prefix = "search_query: "
+document_prefix = "search_document: "
+# Thresholds belong to the embedding model, so they're the ones tuned for config.toml.
+tau_topic = 0.70
+tau_min = 0.06
+
+[retrieval]
+mode = "per_topic"
+max_results = 3
+
+[ingestion]
+toc_stoplist = ["introduction", "preface", "index", "references", "bibliography",
+                "contents", "exercises", "summary of key concepts"]
+
+[paths]
+catalog = "catalog"
+index = "index"

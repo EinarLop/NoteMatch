@@ -2,6 +2,7 @@
 
 from contextlib import asynccontextmanager
 
+import anthropic
 from fastapi import FastAPI, HTTPException
 
 from notematch.config import load_config
@@ -31,6 +32,8 @@ def recommend_endpoint(req: RecommendRequest) -> RecommendResponse:
         return recommend(req.prompt, app.state.index, app.state.cfg)
     except ConnectionError:
         raise HTTPException(503, "Model server (Ollama) is unreachable.") from None
+    except anthropic.APIConnectionError:
+        raise HTTPException(503, "Claude API is unreachable.") from None
 
 
 @app.get("/health")

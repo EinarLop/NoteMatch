@@ -1,0 +1,221 @@
+{
+  "config": {
+    "llm": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "think": false,
+      "temperature": 0.0,
+      "max_retries": 2
+    },
+    "embedding": {
+      "model": "nomic-embed-text",
+      "query_prefix": "search_query: ",
+      "document_prefix": "search_document: ",
+      "tau_topic": 0.7,
+      "tau_min": 0.06
+    },
+    "retrieval": {
+      "mode": "per_topic",
+      "max_results": 3
+    },
+    "ingestion": {
+      "toc_stoplist": [
+        "introduction",
+        "preface",
+        "index",
+        "references",
+        "bibliography",
+        "contents",
+        "exercises",
+        "summary of key concepts"
+      ]
+    },
+    "paths": {
+      "catalog": "catalog",
+      "index": "index"
+    }
+  },
+  "split": "test",
+  "metrics": {
+    "n_match": 8,
+    "n_nomatch": 2,
+    "hit@3": 0.625,
+    "mrr": 0.625,
+    "recall@3": 0.562,
+    "nomatch_acc": 1.0,
+    "latency_p50_ms": 921,
+    "latency_p95_ms": 1546,
+    "mean_tokens": 342
+  },
+  "cases": [
+    {
+      "id": "c04",
+      "prompt": "Can someone explain how resolution proves something is unsatisfiable? I have a logic homework due Monday.",
+      "topics": [
+        "resolution",
+        "unsatisfiability proofs"
+      ],
+      "expected": [
+        "propositional_logic"
+      ],
+      "returned": [],
+      "hit": false,
+      "rr": 0.0,
+      "recall": 0.0,
+      "failure": "threshold: expected product ranks top-3 but was filtered out"
+    },
+    {
+      "id": "c06",
+      "prompt": "What's the actual difference between Q-learning and SARSA? My assignment wants me to compare them.",
+      "topics": [
+        "q-learning",
+        "sarsa"
+      ],
+      "expected": [
+        "reinforcement_learning"
+      ],
+      "returned": [
+        "reinforcement_learning"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c09",
+      "prompt": "How does TF-IDF work? I'm building a simple document search project for class.",
+      "topics": [
+        "tf-idf",
+        "document search"
+      ],
+      "expected": [
+        "natural_language_processing"
+      ],
+      "returned": [
+        "natural_language_processing"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c12",
+      "prompt": "Building a puzzle solver and need to understand both CSPs and how propositional logic inference works.",
+      "topics": [
+        "csps",
+        "propositional logic inference"
+      ],
+      "expected": [
+        "constraint_satisfaction",
+        "propositional_logic"
+      ],
+      "returned": [
+        "propositional_logic",
+        "first_order_logic"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 0.5,
+      "failure": null
+    },
+    {
+      "id": "c15",
+      "prompt": "Trying to understand word embeddings and how attention and transformers actually work for my NLP project.",
+      "topics": [
+        "word embeddings",
+        "attention",
+        "transformers",
+        "nlp"
+      ],
+      "expected": [
+        "natural_language_processing",
+        "sequence_models"
+      ],
+      "returned": [
+        "natural_language_processing",
+        "sequence_models"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c17",
+      "prompt": "wut is minimax anyway, my game ai project is due tmrw",
+      "topics": [
+        "minimax",
+        "game ai"
+      ],
+      "expected": [
+        "adversarial_search"
+      ],
+      "returned": [
+        "intro_to_ai"
+      ],
+      "hit": false,
+      "rr": 0.0,
+      "recall": 0.0,
+      "failure": "threshold: expected product ranks top-3 but was filtered out"
+    },
+    {
+      "id": "c19",
+      "prompt": "help pls, whats the diff between bagging n boosting for my ml hw",
+      "topics": [
+        "bagging",
+        "boosting"
+      ],
+      "expected": [
+        "decision_trees_ensembles"
+      ],
+      "returned": [],
+      "hit": false,
+      "rr": 0.0,
+      "recall": 0.0,
+      "failure": "threshold: expected product ranks top-3 but was filtered out"
+    },
+    {
+      "id": "c24",
+      "prompt": "Working on a project with STRIPS planning and also robot kinematics and inverse kinematics.",
+      "topics": [
+        "strips planning",
+        "robot kinematics",
+        "inverse kinematics"
+      ],
+      "expected": [
+        "automated_planning"
+      ],
+      "returned": [
+        "automated_planning"
+      ],
+      "hit": true,
+      "rr": 1.0,
+      "recall": 1.0,
+      "failure": null
+    },
+    {
+      "id": "c26",
+      "prompt": "Struggling with Calc II, stuck on integration by parts and power series.",
+      "topics": [
+        "integration by parts",
+        "power series",
+        "calc ii"
+      ],
+      "expected": [],
+      "returned": [],
+      "correct": true,
+      "failure": null
+    },
+    {
+      "id": "c30",
+      "prompt": "Can you recommend a good pizza place near campus?",
+      "topics": [],
+      "expected": [],
+      "returned": [],
+      "correct": true,
+      "failure": null
+    }
+  ]
+}

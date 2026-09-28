@@ -8,6 +8,7 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "anthropic>=1.9.0",
     "fastapi>=0.141.1",
     "numpy>=2.5.3",
     "ollama>=0.6.2",
