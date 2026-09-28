@@ -35,18 +35,29 @@ The test set is small, so a difference of one or two requests shouldn't be read 
 
 - Fix the example-copying problem by giving the LLM its examples as separate chat turns, then evaluate on a fresh test set.
 - Reduce how often the notes' generic summaries match unrelated requests.
-- Add the FastAPI endpoint, Docker setup and the option to use a hosted model instead of the local one.
+- Add the option to use a hosted model instead of the local one.
 
 ## Running it
+
+The models run in Ollama on the host machine, so install and start it first. Then one command builds the container, downloads the models if they're missing, builds the index on first run and starts the API:
+
+```
+docker compose up --build
+```
+
+The API is then at `http://localhost:8000` (`POST /recommend`, with interactive docs at `/docs`). Ollama stays outside the container because Docker on a Mac can't use the M1's GPU.
+
+Without Docker, the same things are available from the command line:
 
 ```
 uv run notematch ingest
 uv run notematch recommend "I need help with Q-learning and MDPs"
 uv run notematch eval
+uv run notematch serve
 ```
 
 ## Built with
 
-Python, Ollama (Qwen3 4B and nomic-embed-text), Pydantic and NumPy.
+Python, Ollama (Qwen3 4B and nomic-embed-text), Pydantic, NumPy, FastAPI and Docker.
 
 The design and the reasoning behind each decision are in [design.md](design.md).

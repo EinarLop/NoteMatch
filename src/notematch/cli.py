@@ -1,10 +1,28 @@
-"""Command line: notematch ingest | recommend "<prompt>" | eval  (serve comes later)."""
+"""Command line: notematch ingest | recommend "<prompt>" | eval | tune | serve"""
 
 import argparse
 import logging
 import os
 
 from notematch.config import load_config
+
+
+def prepare(cfg) -> None:
+    """Make a fresh machine ready to serve: pull missing models, build the index if absent."""
+    import ollama
+    from notematch.ingest import build_index
+
+    tagged = lambda name: name if ":" in name else f"{name}:latest"
+    have = {m.model for m in ollama.list().models}
+    for name in (cfg.llm.model, cfg.embedding.model):
+        if cfg.llm.provider != "ollama" and name == cfg.llm.model:
+            continue                                     # API LLM: nothing to pull
+        if tagged(name) not in have:
+            print(f"Pulling {name} (first run only)...", flush=True)
+            ollama.pull(name)
+    if not (cfg.paths.index / "manifest.json").exists():
+        print("No index found: building it (first run only, ~2 min)...", flush=True)
+        build_index(cfg)
 
 
 def main() -> None:
@@ -20,6 +38,11 @@ def main() -> None:
                     help="default dev; run test only once, with final thresholds (design 7.3)")
     tu = sub.add_parser("tune", help="grid-search tau_topic x tau_min on the dev split")
     tu.add_argument("cases", nargs="?", default="eval/cases.jsonl")
+    sv = sub.add_parser("serve", help="run the HTTP API (POST /recommend)")
+    sv.add_argument("--host", default="127.0.0.1")
+    sv.add_argument("--port", type=int, default=8000)
+    sv.add_argument("--prepare", action="store_true",
+                    help="first pull missing models and build the index if absent (Docker entrypoint)")
     args = ap.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(message)s")  # request log -> stderr
@@ -34,7 +57,8 @@ def main() -> None:
         r = recommend(args.prompt, load_index(cfg), cfg)
         print(f"Topics: {r.parsed_query.topics if r.parsed_query else '(parse failed)'}\n")
         for n, rec_ in enumerate(r.recommendations, 1):
-            print(f"{n}. {rec_.title}  (score {rec_.score}, ${rec_.price})  {rec_.purchase_url}")
+            p = rec_.product
+            print(f"{n}. {p.title}  (score {rec_.score}, ${p.price})  {p.purchase_url}")
             for m in rec_.covered_topics:
                 print(f"   - {m.topic}: " + "; ".join(f"{s.text} ({s.similarity})" for s in m.sections))
         print(f"\n{r.message}")
@@ -49,6 +73,13 @@ def main() -> None:
         from notematch.evaluate import tune
         logging.getLogger("notematch").setLevel(logging.WARNING)
         tune(cfg, Path(args.cases))
+    elif args.cmd == "serve":
+        import uvicorn
+        if args.config:
+            os.environ["NOTEMATCH_CONFIG"] = args.config   # the app loads its config at startup
+        if args.prepare:
+            prepare(cfg)
+        uvicorn.run("notematch.api:app", host=args.host, port=args.port)
 
 
 if __name__ == "__main__":

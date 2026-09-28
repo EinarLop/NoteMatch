@@ -124,10 +124,7 @@ class TopicMatch(BaseModel):
     sections: list[SectionMatch]    # best matches in this product, max 3
 
 class Recommendation(BaseModel):
-    product_id: str
-    title: str
-    price: float
-    purchase_url: HttpUrl
+    product: Product        # catalog fields only; summary and TOC stay server-side
     score: float
     covered_topics: list[TopicMatch]
 

@@ -11,7 +11,7 @@ from pydantic import TypeAdapter, ValidationError
 
 from notematch.config import Config
 from notematch.llm import Usage, complete_json, embed
-from notematch.schemas import (IndexEntry, ParsedQuery, ProductRecord, Recommendation,
+from notematch.schemas import (IndexEntry, ParsedQuery, Product, ProductRecord, Recommendation,
                                RecommendResponse, SectionMatch, TopicMatch)
 
 log = logging.getLogger("notematch")
@@ -99,10 +99,9 @@ def explain(topics, index: Index, top, order, scores, covered, tau_topic: float)
                                          else "(product summary)", similarity=round(sim, 3))
                             for i, sim in top[p][t] if sim >= tau_topic]
                 matches.append(TopicMatch(topic=topic, sections=sections))
-        prod = index.products[p]
-        recs.append(Recommendation(product_id=prod.product_id, title=prod.title, price=prod.price,
-                                   purchase_url=prod.purchase_url, score=round(float(scores[p]), 3),
-                                   covered_topics=matches))
+        # Copy only the Product fields out of the ProductRecord (drops summary and TOC).
+        product = Product.model_validate(index.products[p].model_dump(include=set(Product.model_fields)))
+        recs.append(Recommendation(product=product, score=round(float(scores[p]), 3), covered_topics=matches))
     covered_by_returned = covered[order].any(axis=0) if order else np.zeros(len(topics), bool)
     uncovered = [t for t, c in zip(topics, covered_by_returned) if not c]
     if not recs:

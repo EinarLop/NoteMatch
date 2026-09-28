@@ -1,0 +1,18 @@
+# Prerequisite: Ollama running on the host (brew services start ollama).
+# Then: docker compose up --build
+services:
+  notematch:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      OLLAMA_HOST: http://host.docker.internal:11434   # the host's Ollama, read by the ollama client
+    extra_hosts:
+      - "host.docker.internal:host-gateway"             # makes that name work on Linux too
+    volumes:
+      - ./catalog:/app/catalog:ro                       # input, read-only
+      - ./index:/app/index                              # built on first run, kept across restarts
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      start_period: 180s                                # first run may pull models and ingest

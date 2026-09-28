@@ -60,10 +60,7 @@ class TopicMatch(BaseModel):
 
 
 class Recommendation(BaseModel):
-    product_id: str
-    title: str
-    price: float
-    purchase_url: HttpUrl
+    product: Product  # catalog fields only; summary and TOC stay server-side
     score: float
     covered_topics: list[TopicMatch]
 

@@ -1,0 +1,10 @@
+.venv
+.git
+__pycache__
+.pytest_cache
+catalog
+index
+eval
+tests
+*.md
+!README.md
